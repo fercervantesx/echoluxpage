@@ -6,236 +6,287 @@
   <title>Echolux – Analog Photography Simulation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --color-bg: #fff;
-      --color-text: #222;
-      --color-muted: #888;
-      --color-accent: #e89d21;
-      --radius: 12px;
-    }
     html, body {
       margin: 0;
       padding: 0;
-      font-family: 'Inter', Arial, sans-serif;
-      background: var(--color-bg);
-      color: var(--color-text);
+      background: #f5f5f5;
+      color: #181818;
+      font-family: 'Playfair Display', Georgia, serif;
+      min-height: 100vh;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
     }
-    header {
-      text-align: center;
-      padding: 2.5rem 0 1.5rem 0;
+    .header {
+      width: 100%;
+      max-width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5vw 1.2rem 2.5vw;
+      box-sizing: border-box;
+      font-size: 1.08rem;
+      font-family: 'Playfair Display', Georgia, serif;
     }
-    .app-logo {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 1.2rem;
-      display: inline-block;
-    }
-    h1 {
-      font-size: 2.1rem;
-      font-weight: 700;
-      margin: 0 0 0.5rem 0;
-      letter-spacing: 0.01em;
-    }
-    .tagline {
-      font-size: 1.1rem;
-      color: var(--color-muted);
+    .header-left {
+      flex: 1;
+      text-align: left;
       font-weight: 500;
-      margin-bottom: 1.5rem;
-    }
-    main {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 2rem 1rem 1.5rem 1rem;
-    }
-    section {
-      margin-bottom: 2.5rem;
-    }
-    h2 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 1.1rem;
       letter-spacing: 0.01em;
     }
-    .about {
-      font-size: 1rem;
-      color: var(--color-text);
-      line-height: 1.7;
-      margin-bottom: 0.5rem;
-    }
-    .features {
+    .header-center {
+      flex: 1;
       display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-    .feature-block {
-      font-size: 1rem;
-      color: var(--color-text);
-      padding-left: 1.1rem;
-      position: relative;
-    }
-    .feature-block:before {
-      content: '•';
-      color: var(--color-accent);
-      position: absolute;
-      left: 0;
-      font-size: 1.2em;
-      top: 0;
-      line-height: 1.1;
-    }
-    .gallery-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.2rem;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin-top: 0.5rem;
-    }
-    .gallery-card {
-      background: #faf9f7;
-      border-radius: var(--radius);
-      padding: 0.7em 0.7em 0.4em 0.7em;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 180px;
-      min-width: 120px;
-      width: 100%;
-      border: 1px solid #eee;
-    }
-    .gallery-card img {
-      width: 100%;
-      max-width: 160px;
-      max-height: 180px;
-      border-radius: 6px;
-      background: #f3f3f3;
-      object-fit: contain;
-      margin-bottom: 0.4em;
-      display: block;
-    }
-    .gallery-caption {
-      color: var(--color-muted);
-      font-size: 0.98rem;
-      text-align: center;
-      margin-top: 0.1em;
-    }
-    .carousel-container {
-      width: 100%;
-      overflow-x: auto;
-      margin: 1.5rem 0 1.5rem 0;
-      padding-bottom: 0.5rem;
-    }
-    .carousel-track {
-      display: flex;
-      gap: 1.2rem;
-    }
-    .carousel-item {
-      flex: 0 0 auto;
-      width: 180px;
-      border-radius: 8px;
-      background: #faf9f7;
-      border: 1px solid #eee;
-      display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
     }
-    .carousel-item img {
-      width: 100%;
-      max-width: 100%;
-      max-height: 340px;
-      object-fit: contain;
-      border-radius: 6px 6px 0 0;
+    .header-logo {
+      width: 150px;
+      height: 60px;
       display: block;
-      background: #f3f3f3;
     }
-    .carousel-caption {
-      color: var(--color-muted);
-      font-size: 0.98rem;
-      text-align: center;
-      padding: 0.3em 0.2em 0.2em 0.2em;
-      width: 100%;
+    .header-right {
+      flex: 1;
+      text-align: right;
     }
-    footer {
-      text-align: center;
-      color: var(--color-muted);
-      font-size: 0.98rem;
-      padding: 2rem 0 1.2rem 0;
-      border-top: 1px solid #f0f0f0;
-      margin-top: 2rem;
-    }
-    .footer-links {
-      margin-bottom: 0.7rem;
-    }
-    .footer-links a {
-      color: var(--color-muted);
+    .header-right a {
+      color: #181818;
       text-decoration: none;
-      margin: 0 0.7rem;
+      font-style: normal;
+      font-weight: 400;
       transition: color 0.2s;
     }
-    .footer-links a:hover {
-      color: var(--color-accent);
+    .header-right a:hover {
+      color: #888;
     }
-    @media (max-width: 700px) {
-      main { padding: 1rem 0.2rem 1rem 0.2rem; }
-      .gallery-grid { flex-direction: column; align-items: center; }
-      .carousel-item { width: 90vw; }
-      .gallery-card img { max-width: 90vw; }
+    .intro {
+      width: 100%;
+      max-width: 520px;
+      margin: 5.5rem auto 4.5rem auto;
+      text-align: center;
+      font-size: 1.22rem;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+    .intro em {
+      font-style: italic;
+    }
+    .gallery-scroll {
+      width: 100vw;
+      overflow-x: hidden;
+      overflow-y: visible;
+      white-space: nowrap;
+      margin: 0 auto 0 auto;
+      padding-bottom: 0;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      position: fixed;
+      left: 0;
+      bottom: -24px;
+      z-index: 10;
+      background: transparent;
+      pointer-events: auto;
+    }
+    .gallery-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .gallery-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 0;
+      padding-top: 1rem;
+      padding-left: 2vw;
+      padding-right: 2vw;
+      /* animation and transition properties removed from here */
+      height: auto;
+      margin: 0;
+    }
+
+    .gallery-img {
+      display: inline-block;
+      margin-left: 2px;
+      margin-right: 2px;
+      background: #f5f5f5;
+      border-radius: 3px;
+      border: 6px solid #faf8f3;
+      box-shadow: 0 12px 32px -4px rgba(60,60,60,0.22), 12px 18px 40px -8px rgba(0,0,0,0.18);
+      object-fit: cover;
+      transition: box-shadow 0.45s cubic-bezier(.4,1.4,.6,1), z-index 0s, transform 0.45s cubic-bezier(.4,1.4,.6,1);
+      pointer-events: auto;
+      z-index: 1;
+    }
+    .gallery-img:hover {
+      box-shadow: 0 32px 64px -2px rgba(60,60,60,0.32), 24px 36px 80px -4px rgba(0,0,0,0.22);
+      transform: translateY(-24px) scale(1.04) rotate(var(--rotate, 0deg));
+      z-index: 2;
+    }
+    .gallery-img:first-child {
+      margin-left: 0;
+    }
+    .gallery-img:last-child {
+      margin-right: 0;
+    }
+    /* Varying sizes and rotations for editorial effect */
+    .gallery-img.size1 { width: 300px; height: 390px; transform: rotate(-3deg); }
+    .gallery-img.size2 { width: 320px; height: 375px; transform: rotate(2deg); }
+    .gallery-img.size3 { width: 285px; height: 355px; transform: rotate(-2deg); }
+    .gallery-img.size4 { width: 340px; height: 400px; transform: rotate(3deg); }
+    .gallery-img.size5 { width: 315px; height: 370px; transform: rotate(-2.5deg); }
+    .gallery-img.size6 { width: 325px; height: 395px; transform: rotate(1.5deg); }
+    @media (max-width: 900px) {
+      .intro { font-size: 1.08rem; max-width: 98vw; }
+      .gallery-img.size1, .gallery-img.size2, .gallery-img.size3, .gallery-img.size4, .gallery-img.size5, .gallery-img.size6 {
+        width: 56vw; height: 70vw; min-width: 160px; min-height: 160px; max-width: 440px; max-height: 470px;
+      }
+      .gallery-row { padding-left: 2vw; padding-right: 2vw; }
+    }
+    @media (max-width: 600px) {
+      .header { padding: 1.2rem 2vw 0.7rem 2vw; font-size: 1rem; }
+      .intro { margin: 2.5rem auto 2.5rem auto; }
+      .gallery-img { margin-left: -12px; margin-right: -12px; }
+    }
+    /* Overlay for enlarged image */
+    .enlarged-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 1000;
+      background: rgba(245,245,245,0.92);
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      transition: opacity 0.35s;
+      opacity: 0;
+    }
+    .enlarged-overlay.visible {
+      display: flex;
+      opacity: 1;
+    }
+    .enlarged-img {
+      max-width: 70vw;
+      max-height: 80vh;
+      box-shadow: 0 8px 48px 0 rgba(0,0,0,0.18);
+      border-radius: 0;
+      background: #f5f5f5;
+      object-fit: contain;
+      transition: box-shadow 0.25s;
+    }
+    .download-btn {
+      display: inline-block;
+      margin: 2.5rem auto 2.5rem auto;
+      padding: 0.7em 1.6em;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.08rem;
+      color: #181818;
+      border: 1.5px solid #e0ded8;
+      text-decoration: none;
+      transition: background 0.18s, box-shadow 0.18s, border-color 0.18s;
+      cursor: pointer;
+    }
+    .download-btn:hover {
+      background: #f5f5f5;
+      border-color: #bdbdbd;
+      box-shadow: 0 4px 16px 0 rgba(60,60,60,0.10);
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="assets/logo.svg" alt="Echolux Logo" class="app-logo" />
-    <h1>Echolux</h1>
-    <div class="tagline">Analog Precision. Digital Core.</div>
-  </header>
-  <main>
-    <section>
-      <h2>About</h2>
-      <div class="about">
-        Echolux is a minimal iOS camera app that transforms digital photography into authentic analog film experiences. Capture photos with real-time film emulation filters, delivering the look and feel of vintage film with modern digital precision.
-      </div>
-    </section>
-    <section>
-      <h2>Key Features</h2>
-      <div class="features">
-        <div class="feature-block">Real-time film simulation filters</div>
-        <div class="feature-block">Dynamic lens detection for iPhone cameras</div>
-        <div class="feature-block">Professional watermarking with lens and filter info</div>
-        <div class="feature-block">Mirror-corrected front camera</div>
-        <div class="feature-block">High-resolution HEIF capture</div>
-        <div class="feature-block">Consistent orientation handling</div>
-      </div>
-    </section>
-    <section>
-      <h2>Screenshots</h2>
-      <div class="carousel-container">
-        <div class="carousel-track">
-          <div class="carousel-item"><img src="assets/screenshot1.png" alt="Screenshot 1" /><div class="carousel-caption">Screenshot 1</div></div>
-          <div class="carousel-item"><img src="assets/screenshot2.png" alt="Screenshot 2" /><div class="carousel-caption">Screenshot 2</div></div>
-          <div class="carousel-item"><img src="assets/screenshot3.png" alt="Screenshot 3" /><div class="carousel-caption">Screenshot 3</div></div>
-          <div class="carousel-item"><img src="assets/screenshot4.png" alt="Screenshot 4" /><div class="carousel-caption">Screenshot 4</div></div>
-        </div>
-      </div>
-    </section>
-    <section>
-      <h2>Film Simulation Results</h2>
-      <div class="gallery-grid">
-        <div class="gallery-card"><img src="assets/sample1.jpeg" alt="Sample 1" /><div class="gallery-caption">Sample 1</div></div>
-        <div class="gallery-card"><img src="assets/sample2.jpeg" alt="Sample 2" /><div class="gallery-caption">Sample 2</div></div>
-        <div class="gallery-card"><img src="assets/sample3.jpeg" alt="Sample 3" /><div class="gallery-caption">Sample 3</div></div>
-        <div class="gallery-card"><img src="assets/sample4.jpeg" alt="Sample 4" /><div class="gallery-caption">Sample 4</div></div>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <div class="footer-links">
-      <a href="mailto:so4tune@hotmail.com">Contact: so4tune@hotmail.com</a> |
-      <a href="https://github.com/fercervantesx" target="_blank">More Projects by @fercervantesx</a>
+  <div class="header">
+    <div class="header-left">Fer</div>
+    <div class="header-center"><img src="assets/logo.svg" alt="Echolux Logo" class="header-logo" /></div>
+    <div class="header-right"><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></div>
+  </div>
+  <div class="intro">
+    (*)<br>
+    A minimal iOS camera app for<br>
+    <em>analog-inspired film simulation.</em><br>
+    Capture photos with real-time filters<br>
+    and <em>timeless</em> digital precision.
+  </div>
+  <a href="#" class="download-btn">Download on the App Store</a>
+  <div class="gallery-scroll">
+    <div class="gallery-row">
+      <img src="assets/sample1.jpeg" alt="Sample 1" class="gallery-img size1" style="transform: rotate(-3deg);" />
+      <img src="assets/sample2.jpeg" alt="Sample 2" class="gallery-img size2" style="transform: rotate(2deg);" />
+      <img src="assets/sample3.jpeg" alt="Sample 3" class="gallery-img size3" style="transform: rotate(-2deg);" />
+      <img src="assets/sample4.jpeg" alt="Sample 4" class="gallery-img size4" style="transform: rotate(3deg);" />
+      <img src="assets/sample5.jpeg" alt="Sample 5" class="gallery-img size5" style="transform: rotate(-2.5deg);" />
+      <img src="assets/sample6.jpeg" alt="Sample 6" class="gallery-img size6" style="transform: rotate(1.5deg);" />
+      <img src="assets/sample8.jpeg" alt="Sample 8" class="gallery-img size2" style="transform: rotate(2deg);" />
+      <img src="assets/sample1.jpeg" alt="Sample 1" class="gallery-img size1" style="transform: rotate(-3deg);" />
+      <img src="assets/sample2.jpeg" alt="Sample 2" class="gallery-img size2" style="transform: rotate(2deg);" />
+      <img src="assets/sample3.jpeg" alt="Sample 3" class="gallery-img size3" style="transform: rotate(-2deg);" />
+      <img src="assets/sample4.jpeg" alt="Sample 4" class="gallery-img size4" style="transform: rotate(3deg);" />
+      <img src="assets/sample5.jpeg" alt="Sample 5" class="gallery-img size5" style="transform: rotate(-2.5deg);" />
+      <img src="assets/sample6.jpeg" alt="Sample 6" class="gallery-img size6" style="transform: rotate(1.5deg);" />
+      <img src="assets/sample8.jpeg" alt="Sample 8" class="gallery-img size2" style="transform: rotate(2deg);" />
     </div>
-    &copy; 2025 Echolux. All rights reserved.
-  </footer>
+  </div>
+  <div class="enlarged-overlay" id="enlargedOverlay">
+    <img src="" alt="Enlarged" class="enlarged-img" id="enlargedImg" />
+  </div>
+  <script>
+  // Smooth auto-scroll for gallery with deceleration
+  const galleryScroll = document.querySelector('.gallery-scroll');
+  const galleryRow = document.querySelector('.gallery-row');
+  let scrollPos = 0;
+  let scrollSpeed = 0.5;
+  let targetSpeed = 0.5;
+  let overlayActive = false;
+  function animateGallery() {
+    scrollSpeed += (targetSpeed - scrollSpeed) * 0.03;
+    if (scrollSpeed < 0.01) scrollSpeed = 0;
+    scrollPos += scrollSpeed;
+    if (galleryRow.scrollWidth > 0 && scrollPos >= galleryRow.scrollWidth / 2) {
+      scrollPos = 0;
+    }
+    galleryRow.style.transform = `translateX(${-scrollPos}px)`;
+    requestAnimationFrame(animateGallery);
+  }
+  function setCarouselPaused(state) {
+    targetSpeed = state ? 0 : 0.7;
+  }
+  galleryScroll.addEventListener('mouseenter', () => {
+    if (!overlayActive) setCarouselPaused(true);
+  });
+  galleryScroll.addEventListener('mouseleave', () => {
+    if (!overlayActive) setCarouselPaused(false);
+  });
+  requestAnimationFrame(animateGallery);
+  // Enlarged image overlay logic (open on click)
+  const galleryImgs = document.querySelectorAll('.gallery-img');
+  const overlay = document.getElementById('enlargedOverlay');
+  const overlayImg = document.getElementById('enlargedImg');
+  let lastHoveredImg = null;
+  galleryImgs.forEach(img => {
+    img.addEventListener('mouseenter', () => {
+      if (!overlayActive) setCarouselPaused(true);
+    });
+    img.addEventListener('mouseleave', () => {
+      if (!overlayActive) setCarouselPaused(false);
+    });
+    img.addEventListener('click', () => {
+      overlayImg.src = img.src;
+      overlay.classList.add('visible');
+      overlayActive = true;
+      setCarouselPaused(true);
+      lastHoveredImg = img;
+    });
+  });
+  overlay.addEventListener('click', () => {
+    overlay.classList.remove('visible');
+    overlayActive = false;
+    setCarouselPaused(false);
+    setTimeout(() => { overlayImg.src = ''; }, 350);
+  });
+  </script>
 </body>
-</html> 
+</html>
