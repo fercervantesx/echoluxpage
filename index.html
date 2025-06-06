@@ -3,486 +3,239 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Echolux // Analog Photography Simulation</title>
-  <meta name="description" content="Echolux: Professional analog photography simulation app for iOS. Technical precision, analog heritage, and retro-futuristic CRT broadcast design.">
-  <!-- Inline SVG favicon: extracted star from logo.svg -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 23'%3E%3Cpath d='M32.3251 21.7535C32.1458 22.2758 31.5527 22.6993 31.0004 22.6993H16.0004C18.1526 16.431 27.0607 11.3496 35.8973 11.3496C27.0607 11.3496 21.642 6.26823 23.7942 0C21.642 6.26823 12.7339 11.3496 3.8973 11.3496C12.7339 11.3496 18.1526 16.431 16.0004 22.6993H1.00039C0.448101 22.6993 0.145778 22.2758 0.325129 21.7535L7.46947 0.945803C7.64882 0.423451 8.24193 0 8.79422 0H38.7942C39.3465 0 39.6488 0.42345 39.4695 0.945802L32.3251 21.7535Z' fill='%23e89d21'/%3E%3C/svg%3E">
+  <title>Echolux – Analog Photography Simulation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #1a1a1a;
-      --amber: #e89d21;
-      --amber-glow: 0 0 8px #e89d21, 0 0 2px #e89d21;
-      --amber-glow-strong: 0 0 16px #e89d21, 0 0 4px #e89d21;
-      --offwhite: #cccccc;
-      --scanline: repeating-linear-gradient(
-        to bottom,
-        transparent 0px,
-        transparent 2px,
-        rgba(232,157,33,0.07) 2px,
-        rgba(232,157,33,0.07) 4px
-      );
-      --mono: 'VT323', 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
+      --color-bg: #fff;
+      --color-text: #222;
+      --color-muted: #888;
+      --color-accent: #e89d21;
+      --radius: 12px;
     }
-    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
     html, body {
-      height: 100%;
       margin: 0;
       padding: 0;
-      background: var(--bg);
-      color: var(--amber);
-      font-family: var(--mono);
-      font-size: 18px;
-      letter-spacing: 0.01em;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
       min-height: 100vh;
-      background-image: var(--scanline);
-      overflow-x: hidden;
     }
-    body {
-      min-height: 100vh;
-      position: relative;
-      z-index: 1;
+    header {
+      text-align: center;
+      padding: 2.5rem 0 1.5rem 0;
     }
-    /* CRT grid background */
-    .crt-grid {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background: none;
-    }
-    .crt-grid svg {
-      width: 100vw;
-      height: 100vh;
-      display: block;
-    }
-    /* Boot overlay */
-    .boot-overlay {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      font-family: var(--mono);
-      font-size: 2.2rem;
-      color: var(--amber);
-      letter-spacing: 0.04em;
-      transition: opacity 0.7s cubic-bezier(.4,2,.6,1);
-      pointer-events: all;
-    }
-    .boot-cursor {
-      display: inline-block;
-      width: 1ch;
-      animation: blink 1s steps(1) infinite;
-      color: var(--amber);
-      text-shadow: var(--amber-glow);
-    }
-    @keyframes blink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0; }
-    }
-    .boot-type {
-      display: inline-block;
-      white-space: pre;
-      color: var(--amber);
-      text-shadow: var(--amber-glow);
-    }
-    /* Main layout */
-    .main {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: flex-start;
-      min-height: 100vh;
-      width: 100vw;
-      padding: 0;
-    }
-    .windows {
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
-      margin: 5vh 0 0 7vw;
-      flex: 1 1 0;
-      min-width: 0;
-    }
-    /* Diagnostic window style */
-    .window {
-      background: rgba(26,26,26,0.98);
-      border: 1.5px solid var(--amber);
-      box-shadow: 0 0 24px 0 #e89d2140;
-      border-radius: 0.5rem;
-      padding: 2.2rem 2.2rem 1.5rem 2.2rem;
-      position: relative;
-      margin-left: 0;
-      margin-right: 0;
-      margin-bottom: 0;
-      min-width: 340px;
-      max-width: 520px;
-      box-sizing: border-box;
-      overflow: visible;
-    }
-    .window.asym1 { margin-left: 0vw; }
-    .window.asym2 { margin-left: 4vw; }
-    .window.asym3 { margin-left: 2vw; }
-    .window.asym4 { margin-left: 6vw; }
-    .window.asym5 { margin-left: 1vw; }
-    .corner-bracket {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      pointer-events: none;
-      z-index: 2;
-    }
-    .corner-tl { top: -2px; left: -2px; border-left: 2px solid var(--amber); border-top: 2px solid var(--amber); border-radius: 6px 0 0 0; }
-    .corner-tr { top: -2px; right: -2px; border-right: 2px solid var(--amber); border-top: 2px solid var(--amber); border-radius: 0 6px 0 0; }
-    .corner-bl { bottom: -2px; left: -2px; border-left: 2px solid var(--amber); border-bottom: 2px solid var(--amber); border-radius: 0 0 0 6px; }
-    .corner-br { bottom: -2px; right: -2px; border-right: 2px solid var(--amber); border-bottom: 2px solid var(--amber); border-radius: 0 0 6px 0; }
-    .corner-bracket { box-shadow: 0 0 8px 0 #e89d21cc; }
-    /* Logo */
-    .logo-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .app-logo {
+      width: 80px;
+      height: 80px;
       margin-bottom: 1.2rem;
+      display: inline-block;
     }
-    .logo {
-      width: 260px;
-      max-width: 80vw;
-      display: block;
-      filter: drop-shadow(0 0 16px #e89d21cc) drop-shadow(0 0 4px #e89d21cc);
-      margin-bottom: 0.7rem;
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: 0.01em;
     }
     .tagline {
-      color: var(--amber);
-      font-family: var(--mono);
-      font-size: 1.25rem;
-      text-shadow: var(--amber-glow);
-      letter-spacing: 0.04em;
-      text-align: center;
-      margin-bottom: 0.2em;
-      display: flex;
-      align-items: center;
-      gap: 0.2em;
+      font-size: 1.1rem;
+      color: var(--color-muted);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
     }
-    .tag-cursor {
-      font-size: 1.2em;
-      margin-left: 0.1em;
-      animation: blink 1s steps(1) infinite;
-      color: var(--amber);
-      text-shadow: var(--amber-glow-strong);
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem 1rem 1.5rem 1rem;
     }
-    /* Section labels */
-    .section-label {
-      color: var(--offwhite);
-      font-size: 0.98rem;
-      font-family: var(--mono);
-      opacity: 0.7;
-      margin-bottom: 0.7em;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+    section {
+      margin-bottom: 2.5rem;
     }
-    /* System specs/features */
-    .spec-list, .feature-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-family: var(--mono);
-      color: var(--amber);
-    }
-    .spec-list li, .feature-list li {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5em;
-      font-size: 1.08rem;
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1.1rem;
       letter-spacing: 0.01em;
-      text-shadow: var(--amber-glow);
     }
-    .star {
-      display: inline-block;
-      width: 1.2em;
-      height: 1.2em;
-      margin-right: 0.7em;
-      vertical-align: middle;
-      filter: drop-shadow(0 0 6px #e89d21cc);
-      flex-shrink: 0;
+    .about {
+      font-size: 1rem;
+      color: var(--color-text);
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
     }
-    /* Filter menu */
-    .filter-menu {
+    .features {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.7em 1.2em;
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
+      flex-direction: column;
+      gap: 1.2rem;
     }
-    .filter-item {
-      color: var(--amber);
-      background: rgba(232,157,33,0.07);
-      border: 1px solid var(--amber);
-      border-radius: 0.3em;
-      font-family: var(--mono);
-      font-size: 1.01rem;
-      padding: 0.18em 0.7em;
-      margin-bottom: 0.2em;
-      letter-spacing: 0.03em;
-      box-shadow: 0 0 8px 0 #e89d2130;
-      text-shadow: var(--amber-glow);
-      cursor: pointer;
-      transition: border-color 0.18s, box-shadow 0.18s, filter 0.18s;
+    .feature-block {
+      font-size: 1rem;
+      color: var(--color-text);
+      padding-left: 1.1rem;
       position: relative;
-      z-index: 1;
-      outline: none;
     }
-    .filter-item:hover, .filter-item:focus {
-      border-color: #fffbe6;
-      box-shadow: 0 0 16px 0 #e89d21cc, 0 0 2px #fffbe6;
-      filter: brightness(1.15) contrast(1.1);
-      animation: flicker 0.18s linear 1;
+    .feature-block:before {
+      content: '•';
+      color: var(--color-accent);
+      position: absolute;
+      left: 0;
+      font-size: 1.2em;
+      top: 0;
+      line-height: 1.1;
     }
-    @keyframes flicker {
-      0% { filter: brightness(1.2) contrast(1.2); }
-      50% { filter: brightness(0.8) contrast(1.4); }
-      100% { filter: brightness(1.15) contrast(1.1); }
-    }
-    /* Image showcase */
-    .image-grid {
+    .gallery-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.1rem 1.1rem;
-      margin-bottom: 0.7em;
+      gap: 1.2rem;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 0.5rem;
     }
-    .image-grid a {
+    .gallery-card {
+      background: #faf9f7;
+      border-radius: var(--radius);
+      padding: 0.7em 0.7em 0.4em 0.7em;
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-decoration: none;
-      background: rgba(232,157,33,0.07);
-      border: 1.5px solid var(--amber);
-      border-radius: 0.4em;
-      padding: 0.7em 0.7em 0.4em 0.7em;
-      transition: border-color 0.18s, box-shadow 0.18s, filter 0.18s;
-      box-shadow: 0 0 8px 0 #e89d2130;
+      max-width: 180px;
+      min-width: 120px;
+      width: 100%;
+      border: 1px solid #eee;
     }
-    .image-grid a:hover {
-      border-color: #fffbe6;
-      box-shadow: 0 0 16px 0 #e89d21cc, 0 0 2px #fffbe6;
-      filter: brightness(1.15) contrast(1.1);
-      animation: flicker 0.18s linear 1;
-    }
-    .image-grid img {
-      max-width: 120px;
-      max-height: 90px;
-      border-radius: 0.2em;
+    .gallery-card img {
+      width: 100%;
+      max-width: 160px;
+      max-height: 180px;
+      border-radius: 6px;
+      background: #f3f3f3;
+      object-fit: contain;
       margin-bottom: 0.4em;
-      background: #181a18;
-      border: 1px solid var(--amber);
-      object-fit: cover;
-      image-rendering: crisp-edges;
-      box-shadow: 0 0 8px 0 #e89d2130;
+      display: block;
     }
-    .img-caption {
-      color: var(--amber);
-      font-size: 0.92rem;
-      font-family: var(--mono);
+    .gallery-caption {
+      color: var(--color-muted);
+      font-size: 0.98rem;
       text-align: center;
       margin-top: 0.1em;
-      letter-spacing: 0.03em;
-      opacity: 0.85;
-      text-shadow: var(--amber-glow);
     }
-    /* Footer */
-    .footer {
-      color: var(--offwhite);
-      font-size: 1.01rem;
-      font-family: var(--mono);
+    .carousel-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1.5rem 0 1.5rem 0;
+      padding-bottom: 0.5rem;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 1.2rem;
+    }
+    .carousel-item {
+      flex: 0 0 auto;
+      width: 180px;
+      border-radius: 8px;
+      background: #faf9f7;
+      border: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .carousel-item img {
+      width: 100%;
+      max-width: 100%;
+      max-height: 340px;
+      object-fit: contain;
+      border-radius: 6px 6px 0 0;
+      display: block;
+      background: #f3f3f3;
+    }
+    .carousel-caption {
+      color: var(--color-muted);
+      font-size: 0.98rem;
       text-align: center;
-      margin: 4rem 0 2rem 0;
-      opacity: 0.7;
-      letter-spacing: 0.03em;
-      z-index: 2;
-      position: relative;
+      padding: 0.3em 0.2em 0.2em 0.2em;
+      width: 100%;
     }
-    /* Responsive */
-    @media (max-width: 900px) {
-      .main { flex-direction: column; align-items: center; }
-      .windows { margin-left: 0; margin-top: 3vh; }
-      .window { max-width: 98vw; min-width: 0; padding: 1.2rem 0.7rem 1rem 0.7rem; }
+    footer {
+      text-align: center;
+      color: var(--color-muted);
+      font-size: 0.98rem;
+      padding: 2rem 0 1.2rem 0;
+      border-top: 1px solid #f0f0f0;
+      margin-top: 2rem;
     }
-    @media (max-width: 600px) {
-      .logo { width: 90vw; }
-      .window { padding: 0.7rem 0.2rem 0.7rem 0.2rem; }
+    .footer-links {
+      margin-bottom: 0.7rem;
+    }
+    .footer-links a {
+      color: var(--color-muted);
+      text-decoration: none;
+      margin: 0 0.7rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: var(--color-accent);
+    }
+    @media (max-width: 700px) {
+      main { padding: 1rem 0.2rem 1rem 0.2rem; }
+      .gallery-grid { flex-direction: column; align-items: center; }
+      .carousel-item { width: 90vw; }
+      .gallery-card img { max-width: 90vw; }
     }
   </style>
 </head>
 <body>
-  <!-- CRT grid background -->
-  <div class="crt-grid">
-    <svg viewBox="0 0 1000 1000" width="100%" height="100%" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id="gridfade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#e89d21" stop-opacity="0.18"/>
-          <stop offset="100%" stop-color="#e89d21" stop-opacity="0.04"/>
-        </linearGradient>
-      </defs>
-      <!-- Perspective grid lines -->
-      <g stroke="url(#gridfade)" stroke-width="1">
-        <line x1="0" y1="1000" x2="1000" y2="1000" />
-        <line x1="0" y1="900" x2="1000" y2="900" />
-        <line x1="0" y1="800" x2="1000" y2="800" />
-        <line x1="0" y1="700" x2="1000" y2="700" />
-        <line x1="0" y1="600" x2="1000" y2="600" />
-        <line x1="0" y1="500" x2="1000" y2="500" />
-        <line x1="0" y1="400" x2="1000" y2="400" />
-        <line x1="0" y1="300" x2="1000" y2="300" />
-        <line x1="0" y1="200" x2="1000" y2="200" />
-        <line x1="0" y1="100" x2="1000" y2="100" />
-        <!-- Perspective vanishing lines -->
-        <line x1="500" y1="1000" x2="500" y2="0" />
-        <line x1="500" y1="1000" x2="0" y2="0" />
-        <line x1="500" y1="1000" x2="1000" y2="0" />
-        <line x1="500" y1="1000" x2="250" y2="0" />
-        <line x1="500" y1="1000" x2="750" y2="0" />
-      </g>
-    </svg>
-  </div>
-  <!-- Boot sequence overlay -->
-  <div class="boot-overlay" id="bootOverlay">
-    <span class="boot-cursor">▋</span>
-  </div>
-  <div class="main" id="mainContent" style="display:none;">
-    <div class="windows">
-      <!-- HERO WINDOW -->
-      <div class="window asym1">
-        <div class="corner-bracket corner-tl"></div>
-        <div class="corner-bracket corner-tr"></div>
-        <div class="corner-bracket corner-bl"></div>
-        <div class="corner-bracket corner-br"></div>
-        <div class="logo-wrap">
-          <img src="assets/logo.svg" alt="Echolux Logo" class="logo" />
-          <div class="tagline">Analog Precision. Digital Core.<span class="tag-cursor">▋</span></div>
+  <header>
+    <img src="assets/logo.svg" alt="Echolux Logo" class="app-logo" />
+    <h1>Echolux</h1>
+    <div class="tagline">Analog Precision. Digital Core.</div>
+  </header>
+  <main>
+    <section>
+      <h2>About</h2>
+      <div class="about">
+        Echolux is a minimal iOS camera app that transforms digital photography into authentic analog film experiences. Capture photos with real-time film emulation filters, delivering the look and feel of vintage film with modern digital precision.
+      </div>
+    </section>
+    <section>
+      <h2>Key Features</h2>
+      <div class="features">
+        <div class="feature-block">Real-time film simulation filters</div>
+        <div class="feature-block">Dynamic lens detection for iPhone cameras</div>
+        <div class="feature-block">Professional watermarking with lens and filter info</div>
+        <div class="feature-block">Mirror-corrected front camera</div>
+        <div class="feature-block">High-resolution HEIF capture</div>
+        <div class="feature-block">Consistent orientation handling</div>
+      </div>
+    </section>
+    <section>
+      <h2>Screenshots</h2>
+      <div class="carousel-container">
+        <div class="carousel-track">
+          <div class="carousel-item"><img src="assets/screenshot1.png" alt="Screenshot 1" /><div class="carousel-caption">Screenshot 1</div></div>
+          <div class="carousel-item"><img src="assets/screenshot2.png" alt="Screenshot 2" /><div class="carousel-caption">Screenshot 2</div></div>
+          <div class="carousel-item"><img src="assets/screenshot3.png" alt="Screenshot 3" /><div class="carousel-caption">Screenshot 3</div></div>
+          <div class="carousel-item"><img src="assets/screenshot4.png" alt="Screenshot 4" /><div class="carousel-caption">Screenshot 4</div></div>
         </div>
       </div>
-      <!-- SYSTEM SPECIFICATIONS WINDOW -->
-      <div class="window asym2">
-        <div class="corner-bracket corner-tl"></div>
-        <div class="corner-bracket corner-tr"></div>
-        <div class="corner-bracket corner-bl"></div>
-        <div class="corner-bracket corner-br"></div>
-        <div class="section-label">// SYSTEM SPECIFICATIONS_</div>
-        <ul class="spec-list">
-          <li><span class="star">✦</span>iOS native application built with SwiftUI</li>
-          <li><span class="star">✦</span>Core Image processing pipeline</li>
-          <li><span class="star">✦</span>Professional color space handling (Display P3)</li>
-        </ul>
+    </section>
+    <section>
+      <h2>Film Simulation Results</h2>
+      <div class="gallery-grid">
+        <div class="gallery-card"><img src="assets/sample1.jpeg" alt="Sample 1" /><div class="gallery-caption">Sample 1</div></div>
+        <div class="gallery-card"><img src="assets/sample2.jpeg" alt="Sample 2" /><div class="gallery-caption">Sample 2</div></div>
+        <div class="gallery-card"><img src="assets/sample3.jpeg" alt="Sample 3" /><div class="gallery-caption">Sample 3</div></div>
+        <div class="gallery-card"><img src="assets/sample4.jpeg" alt="Sample 4" /><div class="gallery-caption">Sample 4</div></div>
       </div>
-      <!-- KEY FEATURES WINDOW -->
-      <div class="window asym3">
-        <div class="corner-bracket corner-tl"></div>
-        <div class="corner-bracket corner-tr"></div>
-        <div class="corner-bracket corner-bl"></div>
-        <div class="corner-bracket corner-br"></div>
-        <div class="section-label">// KEY FEATURES_</div>
-        <ul class="feature-list">
-          <li><span class="star">✦</span>Real-time professional film simulation filters</li>
-          <li><span class="star">✦</span>Dynamic lens detection (iPhone camera systems)</li>
-          <li><span class="star">✦</span>Professional watermarking (lens & filter data)</li>
-          <li><span class="star">✦</span>Exposure compensation in watermarks</li>
-          <li><span class="star">✦</span>Mirror-corrected front camera</li>
-          <li><span class="star">✦</span>High-resolution HEIF capture</li>
-          <li><span class="star">✦</span>Precision orientation handling</li>
-        </ul>
-      </div>
-      <!-- FILTER SHOWCASE WINDOW -->
-      <div class="window asym4">
-        <div class="corner-bracket corner-tl"></div>
-        <div class="corner-bracket corner-tr"></div>
-        <div class="corner-bracket corner-bl"></div>
-        <div class="corner-bracket corner-br"></div>
-        <div class="section-label">// FILM SIMULATION FILTERS_</div>
-        <div class="filter-menu">
-          <span class="filter-item" tabindex="0">::BLEACH_BYPASS</span>
-          <span class="filter-item" tabindex="0">::FADED_PRINT</span>
-          <span class="filter-item" tabindex="0">::MONO_C41</span>
-          <span class="filter-item" tabindex="0">::VIVID_NEG</span>
-          <span class="filter-item" tabindex="0">::PORTRAIT_400</span>
-          <span class="filter-item" tabindex="0">::CINE_800T</span>
-          <span class="filter-item" tabindex="0">::CHROME</span>
-          <span class="filter-item" tabindex="0">::INSTANT</span>
-        </div>
-      </div>
-      <!-- IMAGE SHOWCASE WINDOW -->
-      <div class="window asym5">
-        <div class="corner-bracket corner-tl"></div>
-        <div class="corner-bracket corner-tr"></div>
-        <div class="corner-bracket corner-bl"></div>
-        <div class="corner-bracket corner-br"></div>
-        <div class="section-label">// IMAGE SHOWCASE_</div>
-        <div style="margin-bottom:0.7em;color:var(--amber);font-size:0.97rem;font-family:var(--mono);text-shadow:var(--amber-glow);">Film Simulation Results</div>
-        <div class="image-grid">
-          <a href="assets/sample1.jpeg" target="_blank"><img src="assets/sample1.jpeg" alt="Sample 1" /><div class="img-caption">Sample 1</div></a>
-          <a href="assets/sample2.jpeg" target="_blank"><img src="assets/sample2.jpeg" alt="Sample 2" /><div class="img-caption">Sample 2</div></a>
-          <a href="assets/sample3.jpeg" target="_blank"><img src="assets/sample3.jpeg" alt="Sample 3" /><div class="img-caption">Sample 3</div></a>
-          <a href="assets/sample4.jpeg" target="_blank"><img src="assets/sample4.jpeg" alt="Sample 4" /><div class="img-caption">Sample 4</div></a>
-          <a href="assets/sample5.jpeg" target="_blank"><img src="assets/sample5.jpeg" alt="Sample 5" /><div class="img-caption">Sample 5</div></a>
-          <a href="assets/sample6.jpeg" target="_blank"><img src="assets/sample6.jpeg" alt="Sample 6" /><div class="img-caption">Sample 6</div></a>
-          <a href="assets/sample8.jpeg" target="_blank"><img src="assets/sample8.jpeg" alt="Sample 8" /><div class="img-caption">Sample 8</div></a>
-        </div>
-        <div style="margin:1.2em 0 0.7em 0;color:var(--amber);font-size:0.97rem;font-family:var(--mono);text-shadow:var(--amber-glow);">App Interface</div>
-        <div class="image-grid">
-          <a href="assets/screenshot1.png" target="_blank"><img src="assets/screenshot1.png" alt="Screenshot 1" /><div class="img-caption">Screenshot 1</div></a>
-          <a href="assets/screenshot2.png" target="_blank"><img src="assets/screenshot2.png" alt="Screenshot 2" /><div class="img-caption">Screenshot 2</div></a>
-          <a href="assets/screenshot3.png" target="_blank"><img src="assets/screenshot3.png" alt="Screenshot 3" /><div class="img-caption">Screenshot 3</div></a>
-          <a href="assets/screenshot4.png" target="_blank"><img src="assets/screenshot4.png" alt="Screenshot 4" /><div class="img-caption">Screenshot 4</div></a>
-          <a href="assets/screenshot5.png" target="_blank"><img src="assets/screenshot5.png" alt="Screenshot 5" /><div class="img-caption">Screenshot 5</div></a>
-          <a href="assets/screenshot7.png" target="_blank"><img src="assets/screenshot7.png" alt="Screenshot 7" /><div class="img-caption">Screenshot 7</div></a>
-          <a href="assets/screenshot8.png" target="_blank"><img src="assets/screenshot8.png" alt="Screenshot 8" /><div class="img-caption">Screenshot 8</div></a>
-          <a href="assets/screenshot10.png" target="_blank"><img src="assets/screenshot10.png" alt="Screenshot 10" /><div class="img-caption">Screenshot 10</div></a>
-          <a href="assets/screenshot11.png" target="_blank"><img src="assets/screenshot11.png" alt="Screenshot 11" /><div class="img-caption">Screenshot 11</div></a>
-        </div>
-      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-links">
+      <a href="mailto:so4tune@hotmail.com">Contact: so4tune@hotmail.com</a> |
+      <a href="https://github.com/fercervantesx" target="_blank">More Projects by @fercervantesx</a>
     </div>
-  </div>
-  <div class="footer">
-    Est. 2025 • Precision Optics • Denver, CO
-  </div>
-  <script>
-    // Boot sequence logic
-    const bootOverlay = document.getElementById('bootOverlay');
-    const mainContent = document.getElementById('mainContent');
-    let bootStep = 0;
-    function showBootText(text, cb) {
-      let i = 0;
-      const span = document.createElement('span');
-      span.className = 'boot-type';
-      bootOverlay.appendChild(span);
-      function typeChar() {
-        span.textContent = text.slice(0, i);
-        i++;
-        if (i <= text.length) {
-          setTimeout(typeChar, 38 + Math.random()*40);
-        } else {
-          if (cb) setTimeout(cb, 600);
-        }
-      }
-      typeChar();
-    }
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        bootOverlay.querySelector('.boot-cursor').style.display = 'none';
-        showBootText('[SYSTEM ONLINE]', () => {
-          setTimeout(() => {
-            bootOverlay.style.opacity = 0;
-            setTimeout(() => {
-              bootOverlay.style.display = 'none';
-              mainContent.style.display = '';
-            }, 700);
-          }, 700);
-        });
-      }, 900);
-    });
-  </script>
+    &copy; 2025 Echolux. All rights reserved.
+  </footer>
 </body>
 </html> 
