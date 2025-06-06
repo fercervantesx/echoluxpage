@@ -155,20 +155,20 @@
     }
     /* Overlay for enlarged image */
     .enlarged-overlay {
-      display: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(.4,1.4,.6,1);
+      display: flex;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: 1000;
       background: rgba(245,245,245,0.92);
       align-items: center;
       justify-content: center;
-      pointer-events: auto;
-      transition: opacity 0.35s;
-      opacity: 0;
     }
     .enlarged-overlay.visible {
-      display: flex;
       opacity: 1;
+      pointer-events: auto;
     }
     .enlarged-img {
       max-width: 70vw;
@@ -202,7 +202,7 @@
   <div class="header">
     <div class="header-left">Fer</div>
     <div class="header-center"><img src="assets/logo.svg" alt="Echolux Logo" class="header-logo" /></div>
-    <div class="header-right"><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></div>
+    <div class="header-right"><a href="https://instagram.com/fercervantesx" target="_blank" rel="noopener">Instagram</a></div>
   </div>
   <div class="intro">
     (*)<br>
